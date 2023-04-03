@@ -5,12 +5,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey with Music</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6DD5ED, #2193B0);
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        #start-survey {
+            background-color: #ffffff;
+            border: none;
+            color: #2193B0;
+            font-size: 1.5rem;
+            padding: 12px 24px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+
+        #start-survey:hover {
+            background-color: #2193B0;
+            color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
     <audio id="background-music" src="beats.mov" preload="auto" loop></audio>
     <iframe id="qualtrics-survey" style="width: 100%; height: 100vh; border: none; display: none;"></iframe>
-    <button id="start-survey" style="display: block; margin: 0 auto;">Start Survey</button>
+    <div class="container">
+        <h1>Please put on headphones and click the button to start the survey</h1>
+        <button id="start-survey">Start Survey</button>
+    </div>
 
     <script>
         const outcomes = [
@@ -56,8 +99,8 @@
         window.addEventListener('message', function (event) {
             console.log("event.data: ", event.data);
             if (event.data === 'surveyCompleted') {
-                    startNextSurvey();
-                }
+                startNextSurvey();
+            }
         });
     </script>
 </body>
