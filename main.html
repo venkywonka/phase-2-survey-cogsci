@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey with Music</title>
+</head>
+
+<body>
+    <audio id="background-music" src="beats.mov" preload="auto" loop></audio>
+    <iframe id="qualtrics-survey" style="width: 100%; height: 100vh; border: none; display: none;"></iframe>
+    <button id="start-survey" style="display: block; margin: 0 auto;">Start Survey</button>
+
+    <script>
+        const outcomes = [
+            {
+                audioSurvey: 'https://gatech.co1.qualtrics.com/jfe/form/SV_daSJdLxonqEnVpc', // creativity task with audio
+                noAudioSurvey: 'https://gatech.co1.qualtrics.com/jfe/form/SV_6gxgLGASvcn3AO2', // creativity task without audio
+            },
+            {
+                audioSurvey: 'https://gatech.co1.qualtrics.com/jfe/form/SV_daSJdLxonqEnVpc', // creativity task with audio
+                noAudioSurvey: 'https://gatech.co1.qualtrics.com/jfe/form/SV_6gxgLGASvcn3AO2', // creativity task without audio
+            },
+            {
+                audioSurvey: 'https://gatech.co1.qualtrics.com/jfe/form/SV_daSJdLxonqEnVpc', // creativity task with audio
+                noAudioSurvey: 'https://gatech.co1.qualtrics.com/jfe/form/SV_6gxgLGASvcn3AO2', // creativity task without audio
+            },
+        ];
+
+        let currentOutcome;
+
+        function getRandomOutcome() {
+            return outcomes[Math.floor(Math.random() * outcomes.length)];
+        }
+
+        function startNextSurvey() {
+            console.log("outcome: ", currentOutcome);
+            const qualtricsIframe = document.getElementById('qualtrics-survey');
+            qualtricsIframe.src = currentOutcome.noAudioSurvey;
+            document.getElementById('background-music').pause();
+            console.log("changed src")
+        }
+
+        document.getElementById('start-survey').addEventListener('click', function () {
+            currentOutcome = getRandomOutcome();
+            const qualtricsIframe = document.getElementById('qualtrics-survey');
+
+            qualtricsIframe.src = currentOutcome.audioSurvey;
+            qualtricsIframe.style.display = 'block';
+            document.getElementById('start-survey').style.display = 'none';
+
+            document.getElementById('background-music').play();
+        });
+
+        window.addEventListener('message', function (event) {
+            console.log("event.data: ", event.data);
+            if (event.data === 'surveyCompleted') {
+                    startNextSurvey();
+                }
+        });
+    </script>
+</body>
+
+</html>
